@@ -26,13 +26,15 @@ moved {
 }
 
 module "observe_cloudwatch_metrics" {
-  count   = contains(var.cloudwatch_metrics_exclude_filters, "*") ? 0 : 1
-  source  = "observeinc/kinesis-firehose/aws//modules/cloudwatch_metrics"
-  version = "2.2.0"
+  count = contains(var.cloudwatch_metrics_exclude_filters, "*") ? 0 : 1
+  #source  = "observeinc/kinesis-firehose/aws//modules/cloudwatch_metrics"
+  #version = "2.2.0"
+  source = "github.com/kuleszaj/terraform-aws-kinesis-firehose//modules/cloudwatch_metrics?ref=support-cloudwatch-metrics-statistics-configurations"
 
-  name             = var.name
-  iam_name_prefix  = local.name_prefix
-  kinesis_firehose = module.observe_kinesis_firehose
-  include_filters  = var.cloudwatch_metrics_include_filters
-  exclude_filters  = var.cloudwatch_metrics_exclude_filters
+  name                      = var.name
+  iam_name_prefix           = local.name_prefix
+  kinesis_firehose          = module.observe_kinesis_firehose
+  include_filters           = var.cloudwatch_metrics_include_filters
+  exclude_filters           = var.cloudwatch_metrics_exclude_filters
+  statistics_configurations = var.cloudwatch_metrics_statistics_configurations
 }
