@@ -29,4 +29,19 @@ resource "aws_cloudwatch_metric_stream" "main" {
       metric_names = exclude_filter.value.metric_names
     }
   }
+
+  dynamic "statistics_configuration" {
+    for_each = local.filter.statistics_configurations
+    content {
+      additional_statistics = statistics_configuration.value.additional_statistics
+
+      dynamic "include_metric" {
+        for_each = statistics_configurations.value.include_metrics
+        content {
+          namespace   = include_metric.value.namespace
+          metric_name = include_metric.value.metric_names
+        }
+      }
+    }
+  }
 }

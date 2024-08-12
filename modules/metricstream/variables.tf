@@ -61,6 +61,20 @@ variable "exclude_filters" {
   default = null
 }
 
+variable "statistics_configurations" {
+  description = <<-EOF
+    List of metrics to stream additional statistics for.
+  EOF
+  type = list(object({
+    additional_statistics = list(string)
+    include_metrics = list(object({
+      namespace   = string
+      metric_name = string
+    }))
+  }))
+  default = null
+}
+
 variable "buffering_interval" {
   description = <<-EOF
     Buffer incoming data for the specified period of time, in seconds, before

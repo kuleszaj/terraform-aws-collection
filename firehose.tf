@@ -30,9 +30,10 @@ module "observe_cloudwatch_metrics" {
   source  = "observeinc/kinesis-firehose/aws//modules/cloudwatch_metrics"
   version = "2.2.0"
 
-  name             = var.name
-  iam_name_prefix  = local.name_prefix
-  kinesis_firehose = module.observe_kinesis_firehose
-  include_filters  = var.cloudwatch_metrics_include_filters
-  exclude_filters  = var.cloudwatch_metrics_exclude_filters
+  name                      = var.name
+  iam_name_prefix           = local.name_prefix
+  kinesis_firehose          = module.observe_kinesis_firehose
+  include_filters           = var.cloudwatch_metrics_include_filters
+  exclude_filters           = var.cloudwatch_metrics_exclude_filters
+  statistics_configurations = var.cloudwatch_metrics_statistics_configurations
 }

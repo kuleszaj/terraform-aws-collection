@@ -274,6 +274,15 @@ variable "cloudwatch_metrics_exclude_filters" {
   default     = []
 }
 
+variable "cloudwatch_metrics_statistics_configurations" {
+  description = <<-EOF
+    Additional statistics configurations to stream.
+  EOF
+  type        = set(string)
+  nullable    = false
+  default     = []
+}
+
 variable "eventbridge_rules" {
   description = <<-EOF
     Eventbridge events matching these rules will be forwarded to Observe. Map

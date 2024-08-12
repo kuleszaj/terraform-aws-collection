@@ -6,11 +6,13 @@ locals {
   recommended     = local.use_recommended ? yamldecode(module.sam_asset[0].body) : null
   filter = local.use_recommended ? {
     # must convert from cloudformation CamelCase to terraform snake_case when falling back to recommended filter
-    include_filters = try([for v in local.recommended["IncludeFilters"] : { namespace = v.Namespace, metric_names = v.MetricNames }], [])
-    exclude_filters = try([for v in local.recommended["ExcludeFilters"] : { namespace = v.Namespace, metric_names = v.MetricNames }], [])
+    include_filters           = try([for v in local.recommended["IncludeFilters"] : { namespace = v.Namespace, metric_names = v.MetricNames }], [])
+    exclude_filters           = try([for v in local.recommended["ExcludeFilters"] : { namespace = v.Namespace, metric_names = v.MetricNames }], [])
+    statistics_configurations = try([for v in local.recommended["StatisticsConfigurations"] : { additional_statistics = v.AdditionalStatistics, include_metrics = try([for vv in v.IncludeMetrics : { namespace = vv.Namespace, metric_name = vv.MetricName }], []) }], [])
     } : {
-    include_filters = coalesce(var.include_filters, [])
-    exclude_filters = coalesce(var.exclude_filters, [])
+    include_filters           = coalesce(var.include_filters, [])
+    exclude_filters           = coalesce(var.exclude_filters, [])
+    statistics_configurations = coalesce(var.statistics_configurations, [])
   }
 }
 
